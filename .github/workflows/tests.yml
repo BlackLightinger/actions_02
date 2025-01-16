@@ -21,7 +21,7 @@ jobs:
         run: docker build -t kotlin-gradle-tests .
 
       - name: Check JAVA_HOME
-        run: ls -a /usr/lib/jvm/
+        run: echo $JAVA_HOME
 
       # Запуск unit тестов
       - name: Run Unit Tests

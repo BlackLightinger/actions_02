@@ -20,6 +20,9 @@ jobs:
       - name: Build Test Container
         run: docker build -t kotlin-gradle-tests .
 
+      - name: Check JAVA_HOME
+        run: echo $JAVA_HOME
+
       # Запуск unit тестов
       - name: Run Unit Tests
         run: docker run --rm kotlin-gradle-tests gradle test --tests "*unit*"

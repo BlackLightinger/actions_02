@@ -1,16 +1,21 @@
+# Используем образ с OpenJDK 21
 FROM openjdk:21-jdk-slim
 
-ARG GRADLE_VERSION=8.3
-RUN apt-get update && apt-get install -y curl unzip && \
-    curl -s https://downloads.gradle-dn.com/distributions/gradle-${GRADLE_VERSION}-bin.zip -o gradle.zip && \
-    unzip gradle.zip -d /opt && \
-    rm gradle.zip && \
-    ln -s /opt/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin/gradle
-
+# Рабочая директория для приложения
 WORKDIR /app
 
-COPY . .
+# Копируем проект в контейнер
+COPY . /app
 
-RUN gradle dependencies --no-daemon
+# Устанавливаем зависимости, если необходимо
+RUN apt-get update && apt-get install -y wget unzip && \
+    wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
+    unzip gradle-8.0-bin.zip && \
+    mv gradle-8.0 /opt/gradle
 
-CMD ["gradle", "--no-daemon", "test"]
+# Копируем gradle wrapper
+COPY gradle /gradle
+
+# Ожидаем, что jar файл будет собран на этапе локальной сборки
+# Просто запускаем сервер через команду `java -jar` или с помощью gradle
+CMD ["./gradlew", "run"]

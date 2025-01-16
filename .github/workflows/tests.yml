@@ -18,7 +18,7 @@ jobs:
 
       # Сборка Docker-образа
       - name: Build Container
-        run: docker build -t kotlin-gradle-tests .
+        run: docker build --no-cache -t kotlin-gradle-tests .
 
       - name: Check JAVA_HOME
         run: ls -a /usr/lib/jvm/ && echo $JAVA_HOME && java -version

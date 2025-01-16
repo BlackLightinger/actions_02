@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y wget unzip
 ENV JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
+RUN chmod -R 755 /usr/lib/jvm/temurin-17-jdk-amd64
+
 # Скачиваем и распаковываем Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
     unzip gradle-8.0-bin.zip && \

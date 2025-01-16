@@ -25,7 +25,7 @@ jobs:
 
       # Запуск unit тестов
       - name: Run Unit Tests
-        run: docker run --rm kotlin-gradle-tests gradle test --tests "unit"
+        run: ./gradlew unit
 
       # Запуск integration тестов
       - name: Run Integration Tests

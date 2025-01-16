@@ -1,0 +1,1 @@
+{"uuid":"dcc54afd-b188-4278-aa0c-8c016d7fa7c6","name":"read by email and password should return User when credentials match()","children":["bc417184-541a-49dd-bd8b-c4b4b0b1c191"],"befores":[],"afters":[],"start":1736938385782,"stop":1736938385785}

@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       # Сборка Docker-образа
-      - name: Build Test Container
+      - name: Build Container
         run: docker build -t kotlin-gradle-tests .
 
       - name: Check JAVA_HOME

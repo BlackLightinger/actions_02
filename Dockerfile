@@ -1,6 +1,9 @@
 # Используем образ с OpenJDK 21
 FROM openjdk:21-jdk-slim
 
+# Устанавливаем JDK 11, чтобы решить проблему с компиляцией
+RUN apt-get update && apt-get install -y wget unzip openjdk-11-jdk
+
 # Рабочая директория для приложения
 WORKDIR /app
 
@@ -8,8 +11,7 @@ WORKDIR /app
 COPY . /app
 
 # Устанавливаем wget и unzip для скачивания и распаковки Gradle
-RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
+RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
     unzip gradle-8.0-bin.zip && \
     mv gradle-8.0 /opt/gradle && \
     ln -s /opt/gradle/bin/gradle /usr/local/bin/gradle
@@ -19,6 +21,10 @@ COPY gradle /app/gradle
 
 # Если вы хотите использовать gradle wrapper, убедитесь, что он доступен в пути
 RUN chmod +x ./gradlew
+
+# Устанавливаем переменные окружения для использования JDK 11
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Ожидаем, что jar файл будет собран на этапе локальной сборки
 # Просто запускаем сервер через команду `java -jar` или с помощью gradle

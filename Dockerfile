@@ -9,7 +9,6 @@ COPY . /app
 
 RUN apt-get update && apt-get install -y wget unzip
 
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
 # Устанавливаем wget и unzip для скачивания и распаковки Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
@@ -24,7 +23,7 @@ COPY gradle /app/gradle
 RUN chmod +x ./gradlew
 
 # Устанавливаем переменные окружения для использования JDK 11
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Ожидаем, что jar файл будет собран на этапе локальной сборки

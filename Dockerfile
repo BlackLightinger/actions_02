@@ -1,4 +1,4 @@
-# Используем образ с OpenJDK 21
+# Используем образ с OpenJDK 17
 FROM openjdk:17-jdk-slim
 
 # Рабочая директория для приложения
@@ -7,24 +7,20 @@ WORKDIR /app
 # Копируем проект в контейнер
 COPY . /app
 
+# Устанавливаем wget и unzip для скачивания и распаковки Gradle
 RUN apt-get update && apt-get install -y wget unzip
 
+# Устанавливаем переменную окружения JAVA_HOME для OpenJDK 17
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
-# Устанавливаем wget и unzip для скачивания и распаковки Gradle
+# Скачиваем и распаковываем Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
     unzip gradle-8.0-bin.zip && \
     mv gradle-8.0 /opt/gradle && \
     ln -s /opt/gradle/bin/gradle /usr/local/bin/gradle
 
-# Копируем gradle wrapper в контейнер (если он есть в вашем проекте)
+# Копируем gradle wrapper в контейнер
 COPY gradle /app/gradle
-
-# Если вы хотите использовать gradle wrapper, убедитесь, что он доступен в пути
-RUN chmod +x ./gradlew
-
-# Устанавливаем переменные окружения для использования JDK 11
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Ожидаем, что jar файл будет собран на этапе локальной сборки
 # Просто запускаем сервер через команду `java -jar` или с помощью gradle

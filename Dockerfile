@@ -9,6 +9,8 @@ COPY . /app
 
 RUN apt-get update && apt-get install -y wget unzip
 
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
 # Устанавливаем wget и unzip для скачивания и распаковки Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
     unzip gradle-8.0-bin.zip && \

@@ -1,5 +1,5 @@
 # Используем образ с OpenJDK 17
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 
 # Рабочая директория для приложения
 WORKDIR /app
@@ -13,8 +13,6 @@ RUN apt-get update && apt-get install -y wget unzip
 # Устанавливаем переменную окружения JAVA_HOME для OpenJDK 17
 ENV JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
-
-RUN chmod -R 755 /usr/lib/jvm/temurin-17-jdk-amd64
 
 # Скачиваем и распаковываем Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \

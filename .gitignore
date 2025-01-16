@@ -1,0 +1,45 @@
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Build output directories
+/build/
+out/
+
+# Gradle-specific files
+.gradle/
+.gradle-cache/
+build.gradle.kts.lock
+.gradle-build-cache/
+gradle/wrapper/gradle-wrapper.properties.lock
+
+# Kotlin-specific files
+*.class
+*.kotlin_metadata
+*.kotlin_module
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+/.idea/libraries/
+libs/
+
+# Test results
+/test-results/
+*.html
+*.xml
+/test-output/
+
+# Generated files
+/build/generated/
+.generated/
+.cache/

@@ -1,0 +1,1468 @@
+openapi: 3.0.0
+info:
+  title: Вебсайт с турами - OpenAPI 3.0
+  description: Лабораторная работа №2
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+tags:
+  - name: addresses
+    description: Адреса отелей
+  - name: bookings
+    description: Брони пользователей
+  - name: offers
+    description: Предложения туроператоров
+  - name: paymentsInfo
+    description: Платежная информация
+  - name: residingPlaceCharacteristics
+    description: Условия проживания
+  - name: residingPlaces
+    description: Места проживания
+  - name: tourOperators
+    description: Туроператоры
+  - name: tours
+    description: Доступные туры
+  - name: users
+    description: Операции над пользователями
+paths:
+  /addresses:
+    post:
+      tags:
+        - addresses
+      summary: Добавить новый адрес
+      requestBody:
+        description: Данные для создания нового адреса
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressRouteModel'
+      responses:
+        '201':
+          description: Адрес успешно добавлен
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - addresses
+      summary: Получить список всех адресов
+      description: Возвращает список всех адресов.
+      responses:
+        '200':
+          description: Успешное получение списка адресов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AddressRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Адреса не найдены
+  /addresses/{id}:
+    get:
+      tags:
+        - addresses
+      summary: Получить адрес по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор адреса
+      responses:
+        '200':
+          description: Адрес успешно получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Адрес не найден
+    put:
+      tags:
+        - addresses
+      summary: Обновить адрес по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор адреса
+      requestBody:
+        description: Данные для обновления адреса
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressRouteModel'
+      responses:
+        '200':
+          description: Адрес успешно обновлен
+        '403':
+          description: Ошибка доступа
+        '400':
+          description: Некорректный запрос
+    delete:
+      tags:
+        - addresses
+      summary: Удалить адрес по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор адреса
+      responses:
+        '204':
+          description: Адрес успешно удален
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+
+  /bookings:
+    post:
+      tags:
+        - bookings
+      summary: Создать новое бронирование
+      requestBody:
+        description: Данные для создания нового бронирования
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRouteModel'
+      responses:
+        '201':
+          description: Бронирование успешно создано
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - bookings
+      summary: Получить список всех бронирований
+      description: Возвращает список всех бронирований.
+      responses:
+        '200':
+          description: Успешное получение списка бронирований
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Бронирования не найдены
+  /bookings/{id}:
+    get:
+      tags:
+        - bookings
+      summary: Получить бронирование по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор бронирования
+      responses:
+        '200':
+          description: Бронирование успешно получено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Бронирование не найдено
+    put:
+      tags:
+        - bookings
+      summary: Обновить бронирование по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор бронирования
+      requestBody:
+        description: Данные для обновления бронирования
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRouteModel'
+      responses:
+        '200':
+          description: Бронирование успешно обновлено
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Бронирование не найдено
+    delete:
+      tags:
+        - bookings
+      summary: Удалить бронирование по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор бронирования
+      responses:
+        '204':
+          description: Бронирование успешно удалено
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Бронирование не найдено
+
+  /offers:
+    post:
+      tags:
+        - offers
+      summary: Создать новое предложение
+      requestBody:
+        description: Данные для создания нового предложения
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferRouteModel'
+      responses:
+        '201':
+          description: Предложение успешно создано
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений с фильтрацией
+      description: Возвращает список предложений, отфильтрованных по минимальной и максимальной цене, стране проживания, дате вылета, дате возвращения и типу питания.
+      parameters:
+        - name: minPrice
+          in: query
+          required: false
+          schema:
+            type: number
+            format: double
+          description: Минимальная цена предложения
+        - name: maxPrice
+          in: query
+          required: false
+          schema:
+            type: number
+            format: double
+          description: Максимальная цена предложения
+        - name: country
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Страна проживания (из адреса отеля, связанного с предложением)
+        - name: departureDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Дата вылета (в формате YYYY-MM-DD)
+        - name: returnDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Дата возвращения (в формате YYYY-MM-DD)
+        - name: mealsType
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Тип питания (например, All Inclusive, Half Board, Breakfast)
+      responses:
+        '200':
+          description: Успешное получение отфильтрованного списка предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferRouteModel'
+        '400':
+          description: Некорректные параметры запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Предложения не найдены
+  /offers/{id}:
+    get:
+      tags:
+        - offers
+      summary: Получить предложение по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор предложения
+      responses:
+        '200':
+          description: Предложение успешно получено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Предложение не найдено
+    put:
+      tags:
+        - offers
+      summary: Обновить предложение по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор предложения
+      requestBody:
+        description: Данные для обновления предложения
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferRouteModel'
+      responses:
+        '200':
+          description: Предложение успешно обновлено
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Предложение не найдено
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор предложения
+      responses:
+        '204':
+          description: Предложение успешно удалено
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Предложение не найдено
+
+  /paymentsInfo:
+    post:
+      tags:
+        - paymentsInfo
+      summary: Добавить платежную информацию
+      requestBody:
+        description: Данные для добавления новой платежной информации
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInfoRouteModel'
+      responses:
+        '201':
+          description: Платежная информация успешно добавлена
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - paymentsInfo
+      summary: Получить список всей платежной информации
+      description: Возвращает список всех платежных данных.
+      responses:
+        '200':
+          description: Успешное получение списка платежной информации
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentInfoRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Платежная информация не найдена
+  /paymentsInfo/{id}:
+    get:
+      tags:
+        - paymentsInfo
+      summary: Получить платежную информацию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор платежной информации
+      responses:
+        '200':
+          description: Платежная информация успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInfoRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Платежная информация не найдена
+    put:
+      tags:
+        - paymentsInfo
+      summary: Обновить платежную информацию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор платежной информации
+      requestBody:
+        description: Данные для обновления платежной информации
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInfoRouteModel'
+      responses:
+        '200':
+          description: Платежная информация успешно обновлена
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Платежная информация не найдена
+    delete:
+      tags:
+        - paymentsInfo
+      summary: Удалить платежную информацию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор платежной информации
+      responses:
+        '204':
+          description: Платежная информация успешно удалена
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Платежная информация не найдена
+
+  /residingPlaceCharacteristics:
+    post:
+      tags:
+        - residingPlaceCharacteristics
+      summary: Добавить характеристики проживания
+      requestBody:
+        description: Данные для добавления новых характеристик проживания
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidingPlaceCharacteristicsRouteModel'
+      responses:
+        '201':
+          description: Характеристики проживания успешно добавлены
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - residingPlaceCharacteristics
+      summary: Получить список всех характеристик мест проживания
+      description: Возвращает список всех характеристик мест проживания.
+      responses:
+        '200':
+          description: Успешное получение списка характеристик мест проживания
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResidingPlaceCharacteristicsRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Характеристики мест проживания не найдены
+  /residingPlaceCharacteristics/{id}:
+    get:
+      tags:
+        - residingPlaceCharacteristics
+      summary: Получить характеристики проживания по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор характеристик проживания
+      responses:
+        '200':
+          description: Характеристики проживания успешно получены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidingPlaceCharacteristicsRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Характеристики проживания не найдены
+    put:
+      tags:
+        - residingPlaceCharacteristics
+      summary: Обновить характеристики проживания по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор характеристик проживания
+      requestBody:
+        description: Данные для обновления характеристик проживания
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidingPlaceCharacteristicsRouteModel'
+      responses:
+        '200':
+          description: Характеристики проживания успешно обновлены
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Характеристики проживания не найдены
+    delete:
+      tags:
+        - residingPlaceCharacteristics
+      summary: Удалить характеристики проживания по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор характеристик проживания
+      responses:
+        '204':
+          description: Характеристики проживания успешно удалены
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Характеристики проживания не найдены
+
+  /residingPlaces:
+    post:
+      tags:
+        - residingPlaces
+      summary: Добавить новый отель
+      requestBody:
+        description: Данные для добавления нового отеля
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidingPlaceRouteModel'
+      responses:
+        '201':
+          description: Отель успешно добавлен
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - residingPlaces
+      summary: Получить список всех мест проживания (отелей)
+      description: Возвращает список всех мест проживания.
+      responses:
+        '200':
+          description: Успешное получение списка мест проживания
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResidingPlaceRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Места проживания не найдены
+  /residingPlaces/{id}:
+    get:
+      tags:
+        - residingPlaces
+      summary: Получить информацию об отеле по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор отеля
+      responses:
+        '200':
+          description: Информация об отеле успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidingPlaceRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Отель не найден
+    put:
+      tags:
+        - residingPlaces
+      summary: Обновить информацию об отеле по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор отеля
+      requestBody:
+        description: Данные для обновления информации об отеле
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidingPlaceRouteModel'
+      responses:
+        '200':
+          description: Информация об отеле успешно обновлена
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Отель не найден
+    delete:
+      tags:
+        - residingPlaces
+      summary: Удалить отель по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор отеля
+      responses:
+        '204':
+          description: Отель успешно удален
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Отель не найден
+
+  /tourOperators:
+    post:
+      tags:
+        - tourOperators
+      summary: Добавить нового туроператора
+      requestBody:
+        description: Данные для добавления нового туроператора
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourOperatorRouteModel'
+      responses:
+        '201':
+          description: Туроператор успешно добавлен
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - tourOperators
+      summary: Получить список всех туроператоров
+      description: Возвращает список всех туроператоров.
+      responses:
+        '200':
+          description: Успешное получение списка туроператоров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TourOperatorRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Туроператоры не найдены
+  /tourOperators/{id}:
+    get:
+      tags:
+        - tourOperators
+      summary: Получить информацию о туроператоре по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор туроператора
+      responses:
+        '200':
+          description: Информация о туроператоре успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourOperatorRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Туроператор не найден
+    put:
+      tags:
+        - tourOperators
+      summary: Обновить информацию о туроператоре по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор туроператора
+      requestBody:
+        description: Данные для обновления информации о туроператоре
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourOperatorRouteModel'
+      responses:
+        '200':
+          description: Информация о туроператоре успешно обновлена
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Туроператор не найден
+    delete:
+      tags:
+        - tourOperators
+      summary: Удалить туроператора по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор туроператора
+      responses:
+        '204':
+          description: Туроператор успешно удален
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Туроператор не найден
+
+  /tours:
+    post:
+      tags:
+        - tours
+      summary: Добавить новый тур
+      requestBody:
+        description: Данные для добавления нового тура
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourRouteModel'
+      responses:
+        '201':
+          description: Тур успешно добавлен
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+    get:
+      tags:
+        - tours
+      summary: Получить список всех туров
+      description: Возвращает список всех туров.
+      responses:
+        '200':
+          description: Успешное получение списка туров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TourRouteModel'
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Туры не найдены
+  /tours/{id}:
+    get:
+      tags:
+        - tours
+      summary: Получить информацию о туре по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор тура
+      responses:
+        '200':
+          description: Информация о туре успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Тур не найден
+    put:
+      tags:
+        - tours
+      summary: Обновить информацию о туре по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор тура
+      requestBody:
+        description: Данные для обновления информации о туре
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourRouteModel'
+      responses:
+        '200':
+          description: Информация о туре успешно обновлена
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Тур не найден
+    delete:
+      tags:
+        - tours
+      summary: Удалить тур по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор тура
+      responses:
+        '204':
+          description: Тур успешно удален
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Тур не найден
+
+  /login:
+    post:
+      tags:
+        - users
+      summary: Авторизовать пользователя
+      requestBody:
+        description: Данные для авторизации
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Пользователь успешно авторизован
+        '401':
+          description: Ошибка авторизации
+  /logout:
+    post:
+      tags:
+        - users
+      summary: Выйти из системы
+      responses:
+        '302':
+          description: Пользователь успешно вышел и был перенаправлен на страницу входа
+  /users:
+    post:
+      tags:
+        - users
+      summary: Зарегистрировать нового пользователя
+      requestBody:
+        description: Данные для регистрации пользователя
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRouteModel'
+      responses:
+        '201':
+          description: Пользователь успешно зарегистрирован
+          headers:
+            Location:
+              description: URL созданного ресурса
+              schema:
+                type: string
+        '400':
+          description: Некорректные данные запроса
+        '409':
+          description: Пользователь с таким email уже существует
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Получить информацию о пользователе по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор пользователя
+      responses:
+        '200':
+          description: Информация о пользователе успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRouteModel'
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Пользователь не найден
+    put:
+      tags:
+        - users
+      summary: Обновить информацию о пользователе по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор пользователя
+      requestBody:
+        description: Данные для обновления информации о пользователе
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRouteModel'
+      responses:
+        '200':
+          description: Информация о пользователе успешно обновлена
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Пользователь не найден
+    patch:
+      tags:
+        - users
+      summary: Частично обновить информацию о пользователе по ID
+      description: Обновляет некоторые поля пользователя. Поля, которые не переданы в теле запроса, остаются без изменений.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор пользователя
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Данные для частичного обновления пользователя
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Имя пользователя
+                surname:
+                  type: string
+                  description: Фамилия пользователя
+                email:
+                  type: string
+                  format: email
+                  description: Электронная почта пользователя
+                phone:
+                  type: string
+                  description: Номер телефона пользователя
+                profilePicture:
+                  type: string
+                  description: URL профиля пользователя
+      responses:
+        '200':
+          description: Данные пользователя успешно обновлены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRouteModel'
+        '400':
+          description: Некорректные данные запроса
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Пользователь не найден
+        '500':
+          description: Внутренняя ошибка сервера
+    delete:
+      tags:
+        - users
+      summary: Удалить пользователя по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Идентификатор пользователя
+      responses:
+        '204':
+          description: Пользователь успешно удален
+        '400':
+          description: Некорректный запрос
+        '403':
+          description: Ошибка доступа
+        '404':
+          description: Пользователь не найден
+
+
+components:
+  schemas:
+    AddressRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        country:
+          type: string
+        locality:
+          type: string
+        street:
+          type: string
+        houseNumber:
+          type: string
+      required:
+        - country
+        - locality
+        - street
+        - houseNumber
+    BookingRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        user_id:
+          type: string
+          format: uuid
+        offer_id:
+          type: string
+          format: uuid
+        payment_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          description: Статус бронирования (e.g. "pending", "confirmed", "cancelled")
+        dateCreated:
+          type: string
+          format: date-time
+          description: Дата создания бронирования
+      required:
+        - user_id
+        - offer_id
+        - payment_id
+        - status
+        - dateCreated
+    OfferRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        departureDate:
+          type: string
+          format: date
+          description: Дата отправления (в формате YYYY-MM-DD)
+        returnDate:
+          type: string
+          format: date
+          description: Дата возвращения (в формате YYYY-MM-DD)
+        nightsCount:
+          type: integer
+          description: Количество ночей
+        touristsCount:
+          type: integer
+          description: Количество туристов
+        price:
+          type: number
+          format: double
+          description: Цена предложения
+        tour_id:
+          type: string
+          format: uuid
+          description: Идентификатор тура, связанного с предложением
+      required:
+        - departureDate
+        - returnDate
+        - nightsCount
+        - touristsCount
+        - price
+        - tour_id
+    PaymentInfoRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        cardNumber:
+          type: string
+          description: Номер карты
+        expirationDate:
+          type: string
+          format: date
+          description: Срок действия карты (в формате MM/YY)
+        cardHolderName:
+          type: string
+          description: Имя держателя карты
+        cvvCode:
+          type: integer
+          description: CVV код карты
+        user_id:
+          type: string
+          format: uuid
+          description: Идентификатор пользователя, которому принадлежит платежная информация
+      required:
+        - cardNumber
+        - expirationDate
+        - cardHolderName
+        - cvvCode
+        - user_id
+    ResidingPlaceCharacteristicsRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        checkInDate:
+          type: string
+          format: date
+          description: Дата заселения (в формате YYYY-MM-DD)
+        checkOutDate:
+          type: string
+          format: date
+          description: Дата выселения (в формате YYYY-MM-DD)
+        roomCategory:
+          type: string
+          description: Категория номера
+        mealsType:
+          type: string
+          description: Тип питания
+        conveniences:
+          type: string
+          description: Удобства в номере
+        residing_place_id:
+          type: string
+          format: uuid
+          description: Идентификатор места проживания (отеля)
+        offer_id:
+          type: string
+          format: uuid
+          description: Идентификатор предложения, связанного с проживанием
+      required:
+        - checkInDate
+        - checkOutDate
+        - roomCategory
+        - mealsType
+        - conveniences
+        - residing_place_id
+        - offer_id
+    ResidingPlaceRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+          description: Название отеля
+        description:
+          type: string
+          description: Описание отеля
+        address_id:
+          type: string
+          format: uuid
+          description: Идентификатор адреса отеля
+        rating:
+          type: number
+          format: double
+          description: Рейтинг отеля (от 1.0 до 5.0)
+      required:
+        - name
+        - description
+        - address_id
+        - rating
+    TourOperatorRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+          description: Название туроператора
+        email:
+          type: string
+          format: email
+          description: Электронная почта туроператора
+        phone:
+          type: string
+          description: Телефон туроператора
+        address_id:
+          type: string
+          format: uuid
+          description: Идентификатор адреса туроператора
+        profilePicture:
+          type: string
+          description: Ссылка на фотографию профиля туроператора
+        rating:
+          type: number
+          format: double
+          description: Рейтинг туроператора (от 1.0 до 5.0)
+      required:
+        - name
+        - email
+        - phone
+        - address_id
+        - profilePicture
+        - rating
+    TourRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        description:
+          type: string
+          description: Описание тура
+        tour_operator_id:
+          type: string
+          format: uuid
+          description: Идентификатор туроператора, организующего тур
+      required:
+        - description
+        - tour_operator_id
+    UserRouteModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Идентификатор пользователя
+        name:
+          type: string
+          description: Имя пользователя
+        surname:
+          type: string
+          description: Фамилия пользователя
+        email:
+          type: string
+          format: email
+          description: Электронная почта пользователя
+        phone:
+          type: string
+          description: Номер телефона пользователя
+        role:
+          type: string
+          description: Роль пользователя
+        password:
+          type: string
+          description: Пароль пользователя
+        profilePicture:
+          type: string
+          description: URL профиля пользователя
+      required:
+        - name
+        - surname
+        - email
+        - phone
+        - role
+        - password
+        - profilePicture

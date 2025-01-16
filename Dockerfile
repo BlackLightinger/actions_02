@@ -1,8 +1,5 @@
 # Используем образ с OpenJDK 21
-FROM openjdk:21-jdk-slim
-
-# Устанавливаем JDK 11, чтобы решить проблему с компиляцией
-RUN apt-get update && apt-get install -y wget unzip openjdk-11-jdk
+FROM openjdk:17-jdk-slim
 
 # Рабочая директория для приложения
 WORKDIR /app

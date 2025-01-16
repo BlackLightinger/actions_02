@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y wget unzip
 
 # Устанавливаем переменную окружения JAVA_HOME для OpenJDK 17
 ENV JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Скачиваем и распаковываем Gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.0-bin.zip && \
